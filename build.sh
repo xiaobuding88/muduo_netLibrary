@@ -2,36 +2,29 @@
 
 set -e
 
-SOURCE_DIR=`pwd`
-SRC_BASE=${SOURCE_DIR}/src/base
-SRC_NET=${SOURCE_DIR}/src/net
-
-# 如果没有 build 目录 创建该目录
+# 如果没有build目录 创建该目录
 if [ ! -d `pwd`/build ]; then
     mkdir `pwd`/build
 fi
 
-# 如果没有 include 目录 创建该目录
-if [ ! -d `pwd`/include ]; then
-    mkdir `pwd`/include
-fi
-
-# 如果没有 lib 目录 创建该目录
-if [ ! -d `pwd`/lib ]; then
-    mkdir `pwd`/lib
-fi
-
-# 删除存在 build 目录生成文件并执行 cmake 命令
-rm -fr ${SOURCE_DIR}/build/*
-cd  ${SOURCE_DIR}/build &&
+rm -fr `pwd`/build/*
+cd `pwd`/build &&
     cmake .. &&
-    make install
+    make
 
-# 将头文件复制到 /usr/include
-cp ${SOURCE_DIR}/include/tiny_network -r /usr/local/include 
+# 回到项目根目录
+cd ..
 
-# 将动态库文件复制到/usr/lib
-cp ${SOURCE_DIR}/lib/libtiny_network.so /usr/local/lib
+# 把头文件拷贝到 /usr/include/mymuduo       .so库拷贝到 /usr/lib
+if [ ! -d /usr/include/mymuduo ]; then
+    mkdir /usr/include/mymuduo
+fi
 
-# 使操作生效
+for header in `ls *.h`
+do
+    cp $header /usr/include/mymuduo
+done
+
+cp `pwd`/lib/libmymuduo.so /usr/lib
+
 ldconfig

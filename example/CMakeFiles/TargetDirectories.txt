@@ -1,0 +1,3 @@
+/home/ubuntu/temp/example/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/temp/example/CMakeFiles/testserver.dir
+/home/ubuntu/temp/example/CMakeFiles/edit_cache.dir

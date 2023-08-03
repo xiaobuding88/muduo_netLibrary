@@ -2,9 +2,23 @@
 
 set -e
 
-# 如果没有build目录 创建该目录
+SOURCE_DIR=`pwd`
+SRC_NET=${SOURCE_DIR}/src/net
+
+
+# 如果没有 build 目录 创建该目录
 if [ ! -d `pwd`/build ]; then
     mkdir `pwd`/build
+fi
+
+# 如果没有 include 目录 创建该目录
+if [ ! -d `pwd`/include ]; then
+    mkdir `pwd`/include
+fi
+
+# 如果没有 lib 目录 创建该目录
+if [ ! -d `pwd`/lib ]; then
+    mkdir `pwd`/lib
 fi
 
 rm -fr `pwd`/build/*
@@ -12,18 +26,10 @@ cd `pwd`/build &&
     cmake .. &&
     make
 
-# 回到项目根目录
-cd ..
+cd  ..
 
-# 把头文件拷贝到 /usr/include/mymuduo       .so库拷贝到 /usr/lib
-if [ ! -d /usr/include/mymuduo ]; then
-    mkdir /usr/include/mymuduo
-fi
-
-for header in `ls *.h`
-do
-    cp $header /usr/include/mymuduo
-done
+# 将头文件复制到 /usr/include
+cp ${SOURCE_DIR}/include/mymuduo -r /usr/local/include
 
 cp `pwd`/lib/libmymuduo.so /usr/lib
 

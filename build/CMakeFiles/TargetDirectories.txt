@@ -1,0 +1,14 @@
+/home/ubuntu/temp/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/temp/build/CMakeFiles/install/strip.dir
+/home/ubuntu/temp/build/CMakeFiles/mymuduo.dir
+/home/ubuntu/temp/build/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/temp/build/CMakeFiles/list_install_components.dir
+/home/ubuntu/temp/build/CMakeFiles/install/local.dir
+/home/ubuntu/temp/build/CMakeFiles/install.dir
+/home/ubuntu/temp/build/example/CMakeFiles/install/strip.dir
+/home/ubuntu/temp/build/example/CMakeFiles/edit_cache.dir
+/home/ubuntu/temp/build/example/CMakeFiles/testserver.dir
+/home/ubuntu/temp/build/example/CMakeFiles/rebuild_cache.dir
+/home/ubuntu/temp/build/example/CMakeFiles/list_install_components.dir
+/home/ubuntu/temp/build/example/CMakeFiles/install/local.dir
+/home/ubuntu/temp/build/example/CMakeFiles/install.dir

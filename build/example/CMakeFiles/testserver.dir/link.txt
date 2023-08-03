@@ -1,0 +1,1 @@
+/usr/bin/c++   -g -std=c++11  -rdynamic CMakeFiles/testserver.dir/testserver.o  -o ../../example/testserver  -L/home/ubuntu/temp/lib -Wl,-rpath,/home/ubuntu/temp/lib ../../lib/libmymuduo.so -lpthread 

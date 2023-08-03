@@ -44,13 +44,13 @@ sudo apt-get install cmake
 下载项目
 
 ```shell
-git clone git@github.com:Shangyizhou/tiny-network.git
+git clone git@github.com:xiaobuding88/muduo_netLibrary.git
 ```
 
 执行脚本构建项目
 
 ```shell
-cd ./tiny-network && bash build.sh
+cd ./muduo_netLibrary && bash build.sh
 ```
 
 ## 运行案例

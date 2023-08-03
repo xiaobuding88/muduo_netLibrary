@@ -1,14 +1,10 @@
-# C++11 Muduo
+# 基于C++11开发的仿Muduo网络库
 
-![流程图](./img/a.png)
+## 项目介绍
 
-## 开发环境
+本项目是参考 muduo 实现的基于 Reactor 模型的多线程网络库。使用 C++ 11 编写去除 muduo 对 boost 的依赖，内部实现了一个小型的 HTTP 服务器，可支持 GET 请求和静态资源的访问，且附有异步日志监控服务端情况。
 
-* linux kernel version 4.4.0 (ubuntu 16.04 Server)
-* gcc version 5.4.0
-* cmake version 3.5.1
-
-项目编译执行`./build.sh`即可，测试用例进入`example/`文件夹，`make`即可生成服务器测试用例
+项目已经实现了 Channel 模块、Poller 模块、事件循环模块、HTTP 模块、定时器模块、异步日志模块、内存池模块、数据库连接池模块。
 
 ## 功能介绍
 
@@ -28,4 +24,41 @@
 4. 在`Thread`中通过`C++lambda`表达式以及信号量机制保证线程创建时的有序性，只有当线程获取到了其自己的`tid`后，才算启动线程完毕
 5. `TcpConnection`继承自`enable_shared_from_this`，`TcpConnection`对象可以调用`shared_from_this()`方法给其内部回调函数，相当于创建了一个带引用计数的`shared_ptr`，同时`muduo`通过`tie()`方式解决了`TcpConnection`对象生命周期先于`Channel`结束的情况
 6. `muduo`采用`Reactor`模型和多线程结合的方式，实现了高并发非阻塞网络库
+
+
+## 开发环境
+
+* linux kernel version 4.4.0 (ubuntu 16.04 Server)
+* gcc version 5.4.0
+* cmake version 3.5.1
+
+## 构建项目
+
+安装Cmake
+
+```shell
+sudo apt-get update
+sudo apt-get install cmake
+```
+
+下载项目
+
+```shell
+git clone git@github.com:Shangyizhou/tiny-network.git
+```
+
+执行脚本构建项目
+
+```shell
+cd ./tiny-network && bash build.sh
+```
+
+## 运行案例
+
+这里以一个简单的回声服务器作为案例，`EchoServer`默认监听端口为`8002`。
+
+```shell
+cd ./example
+./EchoServer
+```
 

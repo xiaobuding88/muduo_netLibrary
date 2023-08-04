@@ -1,7 +1,7 @@
 #include <string>
 
-#include <mymuduo/TcpServer.h>
-#include <mymuduo/Logger.h>
+#include <TcpServer.h>
+#include <Logger.h>
 
 class EchoServer
 {
@@ -52,6 +52,14 @@ private:
 };
 
 int main() {
+
+    int t1 = 1;
+    std::string t2 = "INFO";
+    std::string t3 = "EchooServer.log";
+    std::string t4 = "../log";
+    int t5 = 100000;
+    Logger::InitGlobalLogger(t1, t2, t3, t4, t5);
+
     EventLoop loop;
     InetAddress addr(8002);
     EchoServer server(&loop, addr, "EchoServer");

@@ -1,14 +1,10 @@
-# C++11 Muduo
+# 基于C++11开发的仿Muduo网络库
 
-![流程图](./img/a.png)
+## 项目介绍
 
-## 开发环境
+本项目是参考 muduo 实现的基于 Reactor 模型的多线程网络库。使用 C++ 11 编写去除 muduo 对 boost 的依赖，内部实现了一个小型的 HTTP 服务器，可支持 GET 请求和静态资源的访问，且附有异步日志监控服务端情况。
 
-* linux kernel version 4.4.0 (ubuntu 16.04 Server)
-* gcc version 5.4.0
-* cmake version 3.5.1
-
-项目编译执行`./build.sh`即可，测试用例进入`example/`文件夹，`make`即可生成服务器测试用例
+项目已经实现了 Channel 模块、Poller 模块、事件循环模块、HTTP 模块、定时器模块、异步日志模块、内存池模块、数据库连接池模块。
 
 ## 功能介绍
 
@@ -26,27 +22,43 @@
 2. 在`EventLoop`中注册回调`cb`至`pendingFunctors_`，并在`doPendingFunctors`中通过`swap()`的方式，快速换出注册的回调，只在`swap()`时加锁，减少代码临界区长度，提升效率。（若不通过`swap()`的方式去处理，而是加锁执行`pendingFunctors`中的回调，然后解锁，会出现什么问题呢？1. 临界区过大，锁降低了服务器响应效率 2. 若执行的回调中执行`queueInLoop`需要抢占锁时，会发生死锁）
 3. `Logger`可以设置日志等级，调试代码时可以开启`DEBUG`打印日志；若启动服务器，由于日志会影响服务器性能，可适当关闭`DEBUG`相关日志输出
 4. 在`Thread`中通过`C++lambda`表达式以及信号量机制保证线程创建时的有序性，只有当线程获取到了其自己的`tid`后，才算启动线程完毕
-5. `TcpConnection`继承自`enable_shared_from_this`，`TcpConnection`对象可以调用`shared_from_this()`方法给其内部回调函数，相当于创建了一个带引用计数的`shared_ptr`，可参考链接 [link](https://blog.csdn.net/gc348342215/article/details/123215888)，同时`muduo`通过`tie()`方式解决了`TcpConnection`对象生命周期先于`Channel`结束的情况
+5. `TcpConnection`继承自`enable_shared_from_this`，`TcpConnection`对象可以调用`shared_from_this()`方法给其内部回调函数，相当于创建了一个带引用计数的`shared_ptr`，同时`muduo`通过`tie()`方式解决了`TcpConnection`对象生命周期先于`Channel`结束的情况
 6. `muduo`采用`Reactor`模型和多线程结合的方式，实现了高并发非阻塞网络库
 
 
-## 视频介绍
+## 开发环境
 
-* [muduo源码剖析(1)-简介](https://www.bilibili.com/video/BV1nu411Q7Gq)
-* [muduo源码剖析(2)-muduo编写回射服务器实例](https://www.bilibili.com/video/BV1CY411g7AE)
-* [muduo源码剖析(3)-Timestamp类日志类](https://www.bilibili.com/video/BV1dF411x7A8)
-* [muduo源码剖析(4)-Channel类](https://www.bilibili.com/video/BV14a411h7JW)
-* [muduo源码剖析(5)-Poller类、EPollPoller类等相关](https://www.bilibili.com/video/BV1VL4y1u714)
-* [muduo源码剖析(6)-EventLoop类介绍1](https://www.bilibili.com/video/BV1aY411g7As)
-* [muduo源码剖析(7)-EventLoop类介绍2](https://www.bilibili.com/video/BV1kS4y1S7DC)
-* [muduo源码剖析(8)-Thread类、EventLoopThread类](https://www.bilibili.com/video/BV1GL411P73C)
-* [muduo源码剖析(9)-EventLoopThreadPool类](https://www.bilibili.com/video/BV1yS4y1S7FY)
-* [muduo源码剖析(10)-InetAddress类、Socket类](https://www.bilibili.com/video/BV1UU4y1o7BT)
-* [muduo源码剖析(11)-Acceptor类1](https://www.bilibili.com/video/BV1q3411W79d)
-* [muduo源码剖析(12)-Acceptor类2](https://www.bilibili.com/video/BV1Ua411b7aV)
-* [muduo源码剖析(13)-TcpConnection类、Buffer类](https://www.bilibili.com/video/BV1hS4y137Eg)
-* [muduo源码剖析(14)-TcpConnection类、Buffer类2](https://www.bilibili.com/video/BV1PS4y1D74z)
-* [muduo源码剖析(15)-TcpConnection类](https://www.bilibili.com/video/BV1L3411p7jy)
-* [muduo源码剖析(16)-TcpServer类](https://www.bilibili.com/video/BV13Y411u74h)
+* linux kernel version 4.4.0 (ubuntu 16.04 Server)
+* gcc version 5.4.0
+* cmake version 3.5.1
 
-持续更新..
+## 构建项目
+
+安装Cmake
+
+```shell
+sudo apt-get update
+sudo apt-get install cmake
+```
+
+下载项目
+
+```shell
+git clone git@github.com:xiaobuding88/muduo_netLibrary.git
+```
+
+执行脚本构建项目
+
+```shell
+cd ./muduo_netLibrary && bash build.sh
+```
+
+## 运行案例
+
+这里以一个简单的回声服务器作为案例，`EchoServer`默认监听端口为`8002`。
+
+```shell
+cd ./example
+./EchoServer
+```
+
